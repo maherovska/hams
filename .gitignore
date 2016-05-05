@@ -6,7 +6,7 @@
 *.user
 *.userosscache
 *.sln.docstates
-HAMS.WebUI/App_Data/HAMS_DB_AspNet.mdf
+*/App_Data/HAMS.WebUI/App_Data/HAMS_DB_AspNet.mdf
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
