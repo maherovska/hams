@@ -1,0 +1,214 @@
+﻿@model HAMS.WebUI.Models.IndexViewModel
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Manage";
+}
+
+@section styles{
+    <style>
+    /*span.text-content {
+      background: rgba(0,0,0,0.5);
+      color: white;
+      cursor: pointer;
+      display: table;
+      height: 150px;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 150px;
+    }
+
+    span.text-content span {
+      display: table-cell;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    span.text-content {
+      background: rgba(0,0,0,0.5);
+      color: white;
+      cursor: pointer;
+      display: table;
+      height: 150px;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 150px;
+      opacity: 0;
+    }
+
+    .image-upload label:hover span.text-content {
+      opacity: 1;
+    }
+
+    span.text-content {
+      background: rgba(0,0,0,0.5);
+      color: white;
+      cursor: pointer;
+      display: table;
+      height: 150px;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 150px;
+      opacity: 0;
+      -webkit-transition: opacity 500ms;
+      -moz-transition: opacity 500ms;
+      -o-transition: opacity 500ms;
+      transition: opacity 500ms;
+    }*/
+    .imgrap {
+        position: relative;
+        height:150px;
+        width: 150px;
+    }
+    .descr {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left:0;
+        right: 0;
+        background: rgba(29, 106, 154, 0.72);
+        color: #fff;
+        visibility: hidden;
+        opacity: 0;
+        cursor: pointer;
+        border-radius: 6px;
+        text-align: center;
+        font-size: large;
+        line-height: 8.5;
+    }
+    .imgrap:hover .descr {
+        visibility:visible;
+        opacity: 1;
+    }
+    </style>    
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+    <h4>Change your account settings</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Profile picture:</dt>
+        <dd>
+            @*<div>
+                <img class="img img-rounded" alt="no photo" src="@Url.Action("Photo", "Account" , new { userId = HttpContext.Current.User.Identity.GetUserId() })" width="150" height="150" />
+            </div>
+            <div class="image-upload">
+                <label for="file-input">
+                    <img class="img img-rounded" alt="no photo" src="@Url.Action("Photo", "Account" , new { userId = HttpContext.Current.User.Identity.GetUserId() })" width="150" height="150" />
+                </label>
+
+                <input style="display: none;" id="file-input" type="file" />
+            </div>*@
+            @using (Html.BeginForm("UploadPhoto", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {               
+                @*<div class="btn btn-default" style="width: 350px">
+                    <input type="file" name="file" id="files" onchange="this.form.submit()" />
+                </div>*@
+
+                <div class="image-upload">
+                    <div class="imgrap">
+                        <label for="files">
+                            <img class="img img-rounded" alt="no photo" src="@Url.Action("Photo", "Account" , new { userId = HttpContext.Current.User.Identity.GetUserId() })" width="150" height="150" />
+                            <span class="descr"><span>Change photo</span></span>
+                        </label>
+                    </div>
+
+                    <input style="display: none;" name="file" id="files" type="file" onchange="this.form.submit()" />
+                </div>
+
+            }
+        </dd>
+        <dt>Password:</dt>
+        <dd>
+            [
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink("Change your password", "ChangePassword")
+            }
+            else
+            {
+                @Html.ActionLink("Create", "SetPassword")
+            }
+            ]
+        </dd>
+        @if (HttpContext.Current.User.IsInRole("Teacher"))
+        {
+            <dt>My subjects: </dt>
+            <dd>
+                [
+                @Html.ActionLink("Subject management", "SubjectManagement")
+                ]
+            </dd>
+
+            <dt>My groups: </dt>
+            <dd>
+                [
+                @Html.ActionLink("Group management", "GroupManagement")
+                ]
+            </dd>
+
+        }
+        @*<dt>External Logins:</dt>
+        <dd>
+            @Model.Logins.Count [
+            @Html.ActionLink("Manage", "ManageLogins") ]
+        </dd>*@
+        @*
+            Phone Numbers can used as a second factor of verification in a two-factor authentication system.
+             
+             See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
+             
+             Uncomment the following block after you have set up two-factor authentication
+        *@
+        @*  
+            <dt>Phone Number:</dt>
+            <dd>
+                @(Model.PhoneNumber ?? "None") [
+                @if (Model.PhoneNumber != null)
+                {
+                    @Html.ActionLink("Change", "AddPhoneNumber")
+                    @: &nbsp;|&nbsp;
+                    @Html.ActionLink("Remove", "RemovePhoneNumber")
+                }
+                else
+                {
+                    @Html.ActionLink("Add", "AddPhoneNumber")
+                }
+                ]
+            </dd>
+        *@
+        @*<dt>Two-Factor Authentication:</dt>
+        <dd>
+            <p>
+                There are no two-factor authentication providers configured. See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+                for details on setting up this ASP.NET application to support two-factor authentication.
+            </p>*@
+            @*@if (Model.TwoFactor)
+                {
+                    using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <text>Enabled
+                        <input type="submit" value="Disable" class="btn btn-link" />
+                        </text>
+                    }
+                }
+                else
+                {
+                    using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <text>Disabled
+                        <input type="submit" value="Enable" class="btn btn-link" />
+                        </text>
+                    }
+                }*@
+        @*</dd>*@
+    </dl>
+</div>

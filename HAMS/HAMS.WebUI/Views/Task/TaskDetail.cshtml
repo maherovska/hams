@@ -1,0 +1,78 @@
+﻿  
+@{
+    ViewBag.Title = "TaskDetail";    
+}
+
+<script src="~/Scripts/app/directives/ngEnter.js"></script>
+
+
+<div class="container" ng-controller="datailedTaskCtrl">
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            <div class="pull-left"><h3>Title: {{taskDetails.TaskTitle}}</h3></div>
+            <div class="pull-right for-group">
+                <b>For groups:</b>{{taskDetails.Group}}
+            </div>
+        </div>
+        <div class="col-sm-8 col-sm-offset-2">
+            <div class="jumbotron break-word" style="padding-bottom: 4px;">
+                <div class="task-detail-header "><span><b>Created by:</b> {{taskDetails.TeacherFullName}}</span><span class="pull-right"><b>Deadline:</b> {{taskDetails.DeadLine | date : "dd/MM/yyyy HH:mm "}}</span></div>
+                <div class="pull-left task-detail-header"><b>Subject:</b> {{taskDetails.Subject}}</div>
+                <div class="pull-right task-detail-header"><b>Minutes left:</b> {{minutesLeft}}</div>
+                <hr />
+                <div><span>{{taskDetails.TaskDescription}}</span></div>
+                <div class="clearfix comment-reply">
+                    <div class="pull-right" style="cursor: pointer" ng-click="getComments()"><a><i class="fa fa-share"></i> {{commentsCount}} comments</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-show="showComments">
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <form ng-submit="postComment(comment)">
+                    <div class="form-group">
+                        <label for="comment">Comments:</label>
+
+                        <textarea class="form-control" ng-model="comment.Content" rows="3" style="max-width: none;" id="comment" placeholder="Input comment" ng-enter="postComment(comment)" required></textarea>
+                        <input class="btn btn-success pull-right" type='submit' style="margin: 10px 0px;" value="Add comment" />
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+
+        <div class="row">
+            <div class="break-word" ng-repeat="comment in comments | orderBy:'-Date'">
+                <div class="col-sm-1 col-sm-offset-3">
+                    <div class="thumbnail" style="height: 60px; width: 60px;">
+                        <img class="img-responsive user-photo img-rounded" ng-src="/Account/Photo?userId={{comment.UserId}}" height="60" width="60"/>
+                    </div><!-- /thumbnail -->
+                </div><!-- /col-sm-1 -->
+
+                <div class="col-sm-5">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong>{{comment.UserFullName}}</strong> <span class="text-muted pull-right">{{comment.Date | date : "dd/MM/yyyy HH:mm"}}</span>
+                        </div>
+                        <!-- <div class="edit"><a><i class="fa fa-pencil"></i></a></div> -->
+                        <div class="panel-body">
+                            {{comment.Content}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /col-sm-5 -->
+
+
+        </div>
+    </div><!-- /row -->
+
+
+
+</div><!-- /container -->
+
+
+
+

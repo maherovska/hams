@@ -1,0 +1,97 @@
+﻿@model HAMS.Domain.Group
+
+@{
+    ViewBag.Title = "AddNewGroup";
+} 
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+            $("#Specialization").change(function () {
+
+                var selectedItem = $(this).val();
+                var departments = $("#Department");
+
+                $.ajax({
+                    type: "GET",
+                    url: "/Admin/GetDepartmentsBySpecialization",
+                    data: { "specialization": selectedItem },
+                    success: function (data) {
+
+                        departments.html('');
+                        departments.append($('<option></option>').val(null).html("Choose department"));
+
+                        $.each(data, function (id) {
+                            departments.append($('<option></option>').val(data[id]).html(data[id]));
+                        });
+                    }
+
+                });
+
+            });           
+
+        });
+</script>
+}
+
+<h2>AddNewGroup</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Group</h4>
+        <hr />
+        @if (ViewBag.ErrorMessage != null)
+        {            
+            <span class="" style="color:red">@ViewBag.ErrorMessage</span>
+        }
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Specialization, htmlAttributes: new { @class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Specialization, new SelectList(ViewBag.Specialization), "Choose specialization", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Specialization, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">   
+            @Html.LabelFor(model => model.Department, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (ViewBag.Department == null)
+                {
+                    @Html.DropDownListFor(model => model.Department, Enumerable.Empty<SelectListItem>(), "Choose department", new { @class = "form-control" })
+
+                }
+                else
+                {
+                    @Html.DropDownListFor(model => model.Department, new SelectList(ViewBag.Department, ViewBag.SelectedDepartment), "Choose department", new { @class = "form-control" })
+
+                }
+
+                @Html.ValidationMessageFor(model => model.Department, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EnterYear, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">     
+                @Html.EditorFor(model => model.EnterYear, new { htmlAttributes = new { min = DateTime.Now.Year, @class = "form-control" } })  
+                @Html.ValidationMessageFor(model => model.EnterYear, "", new { @class = "text-danger" })                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

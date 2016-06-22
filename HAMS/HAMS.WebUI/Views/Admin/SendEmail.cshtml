@@ -1,0 +1,22 @@
+﻿@model HAMS.WebUI.Models.EmailSendViewModel
+@{
+    ViewBag.Title = "SendEmail";
+}
+
+<h2>SendEmail</h2>
+
+@using (Html.BeginForm("SendEmail", "Admin", FormMethod.Post))
+{
+    @Html.Label("Full name: ")
+    @Html.TextBoxFor(m => m.FullName)
+
+    <br />
+    @Html.Label("Email: ")
+    @Html.TextBoxFor(m => m.Email)
+
+    <br />
+
+    <input type="submit" value="Send" />
+
+}
+

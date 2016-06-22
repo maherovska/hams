@@ -1,0 +1,37 @@
+﻿@model IEnumerable<HAMS.WebUI.Models.StudentViewModel>
+
+
+@foreach (var user in Model)
+{
+    <tr>
+        <td>
+            @if (user.IsActive)
+            {
+                <i id="active" class="fa fa-circle" style="color: green; cursor:pointer;" title="Active user" tooltip></i>
+            }
+            else
+            {
+                <i id="inactive" class="fa fa-circle" style="color: red; cursor:pointer;" title="Inactive user" tooltip></i>
+            }
+        </td>
+        <td>
+            <img src="@Url.Action("Photo", "Account", new { userId = user.Id })" width="35" height="30" />
+        </td>
+        <td>
+            @user.LastName
+        </td>
+        <td>
+            @user.FirstName
+        </td>
+        <td>
+            @user.Email
+        </td>
+
+        <td>
+            @user.Role
+        </td>
+        <td>
+            @Html.ActionLink("Info", "UserInfo", new { userId = user.Id }, new { @class = "btn btn-info" })
+        </td>
+    </tr>
+}

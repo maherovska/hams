@@ -1,0 +1,54 @@
+﻿@model HAMS.WebUI.Models.StudentViewModel
+
+@{
+    AjaxOptions options = new AjaxOptions
+    { 
+        UpdateTargetId = "tableBody"
+    };
+ }
+
+<tr>
+    <td class="text-left">
+        @Html.DisplayFor(u => Model.FirstName)
+    </td>
+    <td class="text-left">
+        @Html.DisplayFor(u => Model.LastName)
+    </td>
+    <td class="text-left">
+        @Html.DisplayFor(u => Model.Email)
+    </td>
+    <td class="text-center">
+        @Html.DisplayFor(u => Model.Specialization)
+    </td>
+    <td class="text-center">
+        @Html.DisplayFor(u => Model.DepartmentNumber)
+    </td>
+    <td class="text-center">
+        @Html.DisplayFor(u => Model.EnterYear)
+    </td>
+    <td>
+        @*@using (Ajax.BeginForm("ApproveRegistration", "Admin", options))*@
+        @*@using (Html.BeginForm("ApproveRegistration", "Admin", FormMethod.Post))              
+        {*@
+            @*<div class="btn-group">*@
+                @using (Html.BeginForm("ApproveRegistration", "Admin", FormMethod.Post))
+                {
+                    @Html.Hidden("studentId", Model.Id)
+                    @Html.Hidden("studentRole", Model.Role)
+                    <input type="submit" class="btn btn-xs btn-success pull-right" value="Yes" style="width: 40px;" />
+                }
+               
+            @*</div>*@
+        @* } *@
+    </td>
+    <td>
+        @using (Html.BeginForm("DisapproveRegistration", "Admin", FormMethod.Post))
+        {
+            @Html.Hidden("studentId", Model.Id)
+            <input type="submit" class="btn btn-xs btn-danger active pull-left" value="No" style="width: 40px;" />
+        }
+    </td>
+</tr>
+
+
+

@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html ng-app="hamsModule">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-animate_min.js"></script>
+    <script src="~/Scripts/ui-bootstrap-tpls-1_3_2_min.js"></script>
+    <script src="~/Scripts/app/module/hamsModule.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
+
+    @*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-responsive.min.css" rel="stylesheet" />*@
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Trocchi' rel='stylesheet' type='text/css'>
+    <link href="~/Content/home.css" rel="stylesheet" />
+    <link href="~/Content/taskDetail.css" rel="stylesheet" />
+    <link href="~/Content/tasks.css" rel="stylesheet" />
+    @RenderSection("styles", false)
+    <script>
+        $(document).ready(function () {
+            $('.dropdown-toggle').dropdown();
+        });
+    </script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @*@Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Task", "Index", "Task", new { area = "" }, new { @class = "navbar-brand" })</li>
+                        if (HttpContext.Current.User.IsInRole("Admin")) //(Page.User.IsInRole("Admin"))
+                        {
+                            @*<li>@Html.ActionLink("Administration", "ApproveRegistration", "Admin", new { area = "" }, new { @class = "navbar-brand" })</li>*@
+                            
+                            <li class="dropdown" style="font-size: 18px">                         
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="/Admin/ApproveRegistration" style="width: 201.8px;">
+                                    Administration
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" style="font-size: 18px">
+                                    <li><a href="/Admin/ApproveRegistration">Approve registration</a></li>
+                                    <li><a href="/Admin/GetAllUsers">Users</a></li>
+                                    <li><a href="/Admin/RegisterTeacher">Add teacher</a></li>
+                                    <li><a href="/Admin/AddNewGroup">Add new group</a></li>
+                                </ul>
+                            </li>
+                        }
+                    }
+
+                    @*<li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Home assignment management system</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

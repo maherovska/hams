@@ -1,0 +1,369 @@
+﻿
+@{
+    ViewBag.Title = "Tasks";
+}
+
+@section Styles{
+    <style>
+        .row .mybtn {
+            color: #009688;
+            border-color: #009688;
+            font-size: 16px;
+            box-shadow: none;
+            border-radius: 2px;
+            padding: 8px 30px;
+            margin: 10px 1px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0;
+            will-change: box-shadow, transform;
+            transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            outline: 0;
+            cursor: pointer;
+            text-decoration: none;
+            background: #ffffff;
+        }
+            .row .mybtn:hover {
+                background-color: #F9F9F9;
+            }
+            .modal-body {
+                    width: 300px;
+                     margin-right: auto;
+                     margin-left: auto;
+            }
+            .selected-filter{
+                    height: 42px;
+                    line-height: 3;
+            }
+
+            input[type=checkbox].with-font {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px; 
+}    
+input[type=checkbox].with-font ~ label:after {
+    margin-left: 10px;
+    font-family: FontAwesome;
+    display: inline-block;
+    content: "\f096";
+    letter-spacing: 10px;
+    font-size: 1.2em;
+    color: #535353;
+}
+input[type=checkbox].with-font:checked ~ label:after {
+    content: "\f046";        
+    color: darkgreen;
+    letter-spacing: 5px;
+}
+
+        .taskDone {
+            border: 2px solid;
+            border-color:mediumseagreen;
+            background-color: #eafeea
+                !important;   
+        }
+        label {
+                margin-right: 10px;
+    line-height: 1.6;
+        }
+    </style>
+}
+
+
+
+@*@HttpContext.Current.User.IsInRole("Teacher")*@
+
+
+<div class="container" ng-controller="tasksCtrl">
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            <div class="pull-left"><h2>My Tasks:</h2></div>
+            <div class="pull-right btn btn-default mybtn" style="margin-top: 20px;" ng-show="isTeacher" ng-click="addTaskButton()">Create new task</div>
+        </div>
+        <div class="col-sm-8 col-sm-offset-2" style="margin-bottom: 10px;">
+            @*<div class="input-group">
+                <span class="input-group-btn">
+                    <select ng-model="groupFilter" class="form-control" data-ng-options="task.Group as task.Group for task in tasks | unique: 'Group'">
+                        <option value="" selected>All</option>
+                    </select>
+                </span>
+                <span class="input-group-btn">
+                    <select ng-model="subjectsFilter" class="form-control" data-ng-options="task.Subject as task.Subject for task in tasks | unique: 'Subject'">
+                        <option value="" selected>All</option>
+                    </select>
+                </span>
+                <span class="input-group-btn">
+                    <select ng-model="teacherFilter" class="form-control" data-ng-options="task.TeacherFullName as task.TeacherFullName for task in tasks | unique: 'TeacherFullName'">
+                        <option value="" selected>All</option>
+                    </select>
+                </span>
+            </div>*@
+
+
+
+            <div>
+                <ul class="sf-menu" id="example">
+                    <li class="current">
+                        <a href="#">Filter by</a>
+                        <ul>                            
+                            <li ng-hide="isTeacher" class="current">
+                                <a href="#" >Teacher</a>
+                                <ul>
+                                    <li class="current" ng-repeat="task in tasks | unique: 'TeacherFullName'"><a ng-click="addFilterOption(task.TeacherFullName, 'Teacher')" style="cursor: pointer;">{{task.TeacherFullName}}</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Subject</a>
+                                <ul>
+                                    <li class="current" ng-repeat="task in tasks | unique: 'Subject'"><a ng-click="addFilterOption(task.Subject, 'Subject')" style="cursor: pointer;">{{task.Subject}}</a></li>
+                                </ul>
+                            </li>
+                            <li ng-hide="isStudent">
+                                <a href="#">Group</a>
+                                <ul>
+                                    <li class="current" ng-repeat="task in tasks | unique: 'Group'"><a ng-click="addFilterOption(task.Group, 'Group')" style="cursor: pointer;">{{task.Group}}</a></li>
+                                </ul>
+                            </li>
+                            
+                        </ul>
+                    </li>
+                </ul>
+                <div class=" pull-right" style="margin-top: 4px;">
+                    <span class="pull-left btn-group" style="margin-right:30px" ng-show="isStudent">
+                        <button type="button" class="btn btn-primary btn-time done-filter" ng-click="changeDoneFilter('todo')">Todo</button>
+                        <button type="button" class="btn btn-primary btn-time done-filter" ng-click="changeDoneFilter('done')">Done</button>
+                        <button type="button" class="btn btn-primary btn-time done-filter active" ng-click="changeDoneFilter('default')">All</button>
+                    </span>
+                    <span class="btn-group">
+                        <button type="button" class="btn btn-primary btn-time time-filter active" ng-click="changeDeadLineFilter('active')">Active</button>
+                        <button type="button" class="btn btn-primary btn-time time-filter" ng-click="changeDeadLineFilter('past')">Expired</button>
+                        <button type="button" class="btn btn-primary btn-time time-filter" ng-click="changeDeadLineFilter('default')">All</button>
+                    </span>
+                </div>
+        </div>
+        <span ng-show="filterOptionShow"> 
+            <div class="selected-filter">
+                <strong style="margin-left: 30px;">{{ filterOptionShow }} </strong>
+                <i class="fa fa-times fa-small" style="position: absolute; cursor: pointer;" aria-hidden="true" ng-click="resetFilterOption()"></i>
+            </div>
+        </span>
+
+
+
+        </div>
+
+            <div class="col-sm-8 col-sm-offset-2 task"  ng-repeat="task in tasks  | orderBy : '+DeadLine' | dateFilter:order | filter: filterByOption | filter: {IsDone: doneOption}">
+                @*<div class="col-sm-8 col-sm-offset-2" ng-repeat="task in tasks | orderBy : '+DeadLine' | filter: (!!groupFilter || undefined) && {Group: groupFilter}">*@
+                <div class="jumbotron" style="font-size: 16px; padding-bottom: 4px;" ng-class="{taskDone: task.IsDone}">
+                    <div>
+                        <div class="pull-left">
+                            <h1 style="font-size: 25px; padding: 0px; margin-top: 0px">{{task.Title}}</h1>
+                        </div>
+                        <div class="pull-right">
+                            <span class="pull-right"><b>Deadline:</b> {{task.DeadLine | date : "dd/MM/yyyy HH:mm "}}</span>
+                        </div>
+                    </div>
+
+                    <hr style="margin-top: 40px; margin-bottom: 10px;" />
+                    <div>
+                        <p>
+                            {{task.Description}}
+                        </p>
+                        <p>
+                            <a class="btn-link" ng-click="detailedTask(task.TaskId)">Read more</a>
+                            <span class="pull-right" ng-show="isTeacher">
+                                <img alt="Edit" src="@Url.Content("~/Content/Images/edit.png")" width="20"
+                                     ng-click="editTaskButton(task)" />
+                                <img alt="Delete" src="@Url.Content("~/Content/Images/delete.png")" width="20"
+                                     ng-click="deleteTaskButton(task)" />
+                            </span>
+                            <span class="pull-right" ng-show="isStudent">                                
+                                @*<input class="with-font done" id="Done" name="Done" type="checkbox" value="true">
+                                <input name="Done" type="hidden" value="false">     
+                                <label for="Done">Done</label>*@    
+                                <label>Done:</label> 
+                                <input type="checkbox" ng-checked="task.IsDone" ng-click="checkTask(task)" style="width: 20px; height: 20px; float: inherit;" />                      
+                            </span>
+                        </p>
+                    </div>
+                </div>
+        </div>
+                <modal title="Task management" visible="showAddTaskModal">
+                    <form ng-submit="saveNewTask(task)"
+                          name="addTask" novalidate>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12 col-xs-12">
+                                    <label for="" class="control-label">Subject: </label>
+                                    <label ng-show="isEdit" for="" style="font-weight: normal">{{task.subject_id}} </label>
+                                    <select ng-hide="isEdit" ng-model="task.subject_id" class="form-control" data-ng-options="subj.ID as subj.Name for subj in subjects" required></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12 col-xs-12">
+                                    <label for="" class="control-label">Title: </label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="title"
+                                           ng-model="task.title"
+                                           required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12 col-xs-12">
+                                    <label for="" class="control-label">Description: </label>
+                                    <textarea class="form-control" rows="5" ng-model="task.description" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label for="" class="control-label">Group: </label>
+                                    <label ng-show="isEdit" for="" style="font-weight: normal">{{task.group_id}} </label>
+                                    <select ng-hide="isEdit" ng-model="task.group_id" class="form-control" data-ng-options="group.GroupId as group.GroupName for group in groups" required></select>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label for="" class="control-label">Deadline: </label>
+                                    <input type="datetime-local"
+                                           class="form-control"
+                                           name="title"
+                                           ng-model="task.deadline"
+                                           required />
+                                </div>
+                                <div class="col-md-8 col-sm-8 col-xs-8">
+                                    <button type="submit"
+                                            class="btn btn-primary" style="margin-top: 10px;margin-left: 60px;width: 150px;">
+                                        {{modalButton}}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </modal>
+
+        <modal title="Delete task" visible="showDeleteTaskModal">
+            <form ng-submit="deleteTask()" novalidate style="width:auto">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">                           
+                            <label class="control-label">Delete task "{{taskToDelete.title}}"?</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <button type="submit"
+                                    class="btn btn-success" style="margin-top: 10px;width: 100px;">
+                                Yes
+                            </button>
+                            <button type="button" ng-click="close()" 
+                                    class="btn btn-danger" style="margin-top: 10px;width: 100px;">
+                                No
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </modal> 
+    </div><!-- /row -->
+</div><!-- /container -->
+
+@section scripts{
+    <script src="~/Scripts/app/directives/ngEnter.js"></script>
+    <script src="~/Scripts/navdropdown/hoverIntent.js"></script>
+    <script src="~/Scripts/navdropdown/superfish.js"></script>
+    <link href="~/Content/superfish.css" rel="stylesheet" />
+    <script>
+        jQuery(function(){
+	        jQuery('#example').superfish({
+	        });
+        });
+        $(document).ready(function () {
+            $(document).on("click", ".done-filter", function (e) {
+                //e.preventDefault();
+                $('.done-filter').removeClass('active');
+                $(this).addClass('active');
+            });
+            $(document).on("click", ".time-filter", function (e) {
+                //e.preventDefault();
+                $('.time-filter').removeClass('active');
+                $(this).addClass('active');
+            });
+            
+        });
+    </script>
+    <script>
+        $.fn.superfish.defaults = {
+
+            // selector within menu context to define the submenu element to be revealed
+            popUpSelector: 'ul,.sf-mega',
+
+            // the class applied to hovered list items
+            hoverClass: 'sfHover',
+
+            // the class you have applied to list items that lead to the current page
+            pathClass: 'overideThisToUse',
+
+            // the number of levels of sub-menus that remain open or are restored using pathClass
+            pathLevels: 1,
+
+            // the delay in milliseconds that the mouse can remain outside a sub-menu without it closing
+            delay: 800,
+
+            // an object equivalent to first parameter of jQuery’s .animate() method.
+            // Used to animate the sub-menu open
+            animation: { opacity: 'show' },
+
+            // an object equivalent to first parameter of jQuery’s .animate() method Used to animate the sub-menu closed
+            animationOut: { opacity: 'hide' },
+
+            // speed of the opening animation.
+            // Equivalent to second parameter of jQuery’s .animate() method
+            speed: 'normal',
+
+            // speed of the closing animation.
+            // Equivalent to second parameter of jQuery’s .animate() method
+            speedOut: 'fast',
+
+            // set to false if you want to remove the CSS-based arrow triangles
+            cssArrows: true,
+
+            // set to true to disable hoverIntent detection
+            disableHI: false,
+
+            // callback function fires once Superfish is initialised – 'this' is the containing ul
+            onInit: function () { },
+
+            // callback function fires just before reveal animation begins – 'this' is the ul about to open
+            onBeforeShow: function () { },
+
+            // callback function fires once reveal animation completed – 'this' is the opened ul
+            onShow: function () { },
+            onBeforeHide: $.noop,
+
+            // callback function fires after a sub-menu has closed – 'this' is the ul that just closed
+            onHide: function () { },
+
+            // callback function fires when the 'current' sub-menu is restored (if using pathClass functionality)
+            onIdle: function () { },
+
+            // callback function fires after the 'destroy' method is called on the menu container
+            onDestroy: $.noop,
+
+            // callback function. Use this to handle touch events if the default behaviour is getting in your way
+            onHandleTouch: $.noop
+
+        };
+    </script>
+}

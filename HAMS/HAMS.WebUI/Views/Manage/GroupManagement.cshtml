@@ -1,0 +1,104 @@
+﻿@model IEnumerable<HAMS.WebUI.Models.GroupViewModel>
+
+@{
+    ViewBag.Title = "Group Management";
+}
+
+@section styles{
+    <style>
+        input.ng-invalid {
+            border-color: red;
+            background-color: #ffe6e6;
+        }
+    </style>
+}
+
+<h2>My groups</h2>
+
+<div class="container" ng-controller="teachGroupsCtrl">
+    <div>
+        <button type="submit" class="btn btn-default" ng-click="addGroup()">Add new</button>
+    </div>
+    <table class="table table-hover table-bordered">
+        <tbody>
+            <tr ng-repeat="group in groups">
+                <td class="text-center">
+                    {{$index + 1}}
+                </td>
+                <td>
+                    {{group.GroupName}}
+                </td>
+                <td>
+                    <img alt="Delete" src="@Url.Content("~/Content/Images/delete.png")" width="20" ng-click="deleteGroup(group)">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <modal title="Group management" visible="showGroupModal">
+        <form ng-submit="saveGroup(group)" novalidate>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                        <label for="" class="control-label" ng-hide="isDelete">Group: </label>
+                        <select ng-model="group.id" class="form-control" 
+                                data-ng-options="g.GroupId as g.GroupName for g in availableGroups" 
+                                ng-hide="isDelete" required>
+
+                        </select>
+                        <label class="control-label" ng-show="isDelete">
+                            Do you really want to delete {{group.name}} from your groups? 
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-8 col-sm-8 col-xs-8">
+                        <button type="submit"
+                                class="btn btn-primary" style="margin-top: 10px;width: 150px;">
+                            {{modalButton}}
+                        </button>
+                        <button type="button" ng-click="close()"
+                                class="btn btn-primary" style="margin-top: 10px;width: 150px;">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </modal>
+</div>
+
+<div>
+    @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-default" })
+</div>
+
+@*<div>
+    @Html.ActionLink("Add new", "AddGroup", null, new { @class = "btn btn-default" })
+</div>
+
+<table class="table table-hover table-bordered">
+    <tbody>
+        @foreach (var group in Model)
+        {
+            <tr>
+                <td>
+                    @group.GroupName
+                </td>
+                <td>
+                    <a href="@Url.Action("EditSubject", "Manage", new { id = group.GroupId })" title="Edit">
+                        <img alt="Edit" src="@Url.Content("~/Content/Images/edit.png")" width="20">
+                    </a>
+                    <a href="@Url.Action("DeleteSubject", "Manage", new { id = group.GroupId })" title="Delete">
+                        <img alt="Delete" src="@Url.Content("~/Content/Images/delete.png")" width="20">
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-default" })
+</div>*@

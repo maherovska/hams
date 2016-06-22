@@ -1,0 +1,150 @@
+﻿@*@model IEnumerable<HAMS.Domain.Subject>*@
+
+@{
+    ViewBag.Title = "Subject management";
+}
+
+@section styles{
+    <style>
+        input.ng-invalid {
+            border-color: red;
+            background-color: #ffe6e6;        
+        }
+    </style>
+}
+
+<h2>My subjects</h2>
+
+<div class="container" ng-controller="teachSubjCtrl">
+    <div>
+        <button type="submit" class="btn btn-default" ng-click="addSubject()" >Add new</button>
+    </div>
+    <table class="table table-hover table-bordered">
+        <tbody>  
+            <tr ng-repeat="subject in subjects">
+                <td class="text-center">
+                    {{$index + 1}}
+                </td>
+                <td>
+                    {{subject.SubjectName}}
+                </td>
+                <td>                    
+                    <img alt="Edit" src="@Url.Content("~/Content/Images/edit.png")" width="20" ng-click="editSubject(subject)">   
+                                    
+                    <img alt="Delete" src="@Url.Content("~/Content/Images/delete.png")" width="20" ng-click="deleteSubject(subject)">                    
+                </td>
+            </tr>            
+        </tbody>
+    </table>
+
+    <modal title="Subject management" visible="showSubjectModal">
+        <form ng-submit="saveSubject(subject)" novalidate>            
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                        <label for="" class="control-label" ng-hide="isDelete">Subject: </label>
+                        <input type="text"
+                               class="form-control"
+                               name="title"
+                               ng-model="subject.name"
+                               ng-hide="isDelete"
+                               required />
+                        <label class="control-label" ng-show="isDelete">Do you really want to delete subject "{{subject.name}}"?</label>
+                    </div>
+                </div>
+            </div>           
+            <div class="form-group">
+                <div class="row">                    
+                    <div class="col-md-8 col-sm-8 col-xs-8">
+                        <button type="submit"
+                                class="btn btn-primary" style="margin-top: 10px;width: 150px;">
+                            {{modalButton}}
+                        </button>
+                        <button type="button" ng-click="close()"
+                                class="btn btn-primary" style="margin-top: 10px;width: 150px;">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </modal>  
+</div>
+
+<div>
+    @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-default" })
+</div>
+
+
+
+
+
+
+
+@*<div id="update_panel"></div>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />*@
+
+
+@*@Html.ActionLink("Add new", "SaveSubject", null, new { @class = "btn btn-default" })*@
+
+@*<table class="table table-hover table-bordered">
+    <tbody>
+        @foreach (var subject in Model)
+        {
+            <tr>
+                <td>
+                    @subject.Name
+                </td>
+                <td>
+                    <a href="@Url.Action("EditSubject", "Manage", new { id = subject.ID })" title="Edit">
+                        <img alt="Edit" src="@Url.Content("~/Content/Images/edit.png")" width="20">                        
+                    </a>
+                    <a href="@Url.Action("DeleteSubject", "Manage", new { id = subject.ID })" title="Delete">
+                        <img alt="Delete" src="@Url.Content("~/Content/Images/delete.png")" width="20">
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>*@
+
+
+
+
+@*@model IEnumerable<HAMS.Domain.Subject>
+
+@{
+    ViewBag.Title = "Subject management";
+}
+
+<h2>Subject Management</h2>
+
+<div>
+    @Html.ActionLink("Add new", "AddSubject", null, new { @class = "btn btn-default" })
+</div>
+
+<table class="table table-hover table-bordered">
+    <tbody>
+        @foreach (var subject in Model)
+        {
+            <tr>
+                <td>
+                    @subject.Name
+                </td>
+                <td>
+                    <a href="@Url.Action("EditSubject", "Manage", new { id = subject.ID })" title="Edit">
+                        <img alt="Edit" src="@Url.Content("~/Content/Images/edit.png")" width="20">
+                    </a>
+                    <a href="@Url.Action("DeleteSubject", "Manage", new { id = subject.ID })" title="Delete">
+                        <img alt="Delete" src="@Url.Content("~/Content/Images/delete.png")" width="20">
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-default" })
+</div>*@

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<HAMS.WebUI.Models.StudentViewModel>
+@{
+    ViewBag.Title = "Approve registration";   
+}
+
+<div class="row">
+    <h3 class="col-sm-12 ">Students to approve:</h3>
+</div>
+
+
+<div class="row" style="font-size:20px">
+    <div class="col-sm-12 ">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <td class="text-left">
+                            <strong>First name</strong>
+                        </td>
+                        <td class="text-left">
+                            <strong>Last name</strong>
+                        </td>
+                        <td class="text-left">
+                            <strong>Email</strong>
+                        </td>
+                        <td class="text-center">
+                            <strong>Specialization</strong>
+                        </td>
+                        <td class="text-center">
+                            <strong>Department</strong>
+                        </td>
+                        <td class="text-center">
+                            <strong>Enter year</strong>
+
+                        </td>
+                        <td colspan="2" class="text-center">
+                            <strong>Approve </strong>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    @foreach (var user in Model)
+                    {
+                        @Html.Partial("StudentToApprovePartial", user)                        
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+

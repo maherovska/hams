@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="78b7bee0901448a9847127920371203b" Name="Diagram1" ZoomLevel="85">
+        <EntityTypeShape EntityType="HAMS_DB_AspNetModel.C__MigrationHistory" Width="1.5" PointX="0.625" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HAMS_DB_AspNetModel.AspNetRoles" Width="1.5" PointX="0.625" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HAMS_DB_AspNetModel.AspNetUserClaims" Width="1.5" PointX="0.625" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HAMS_DB_AspNetModel.AspNetUserLogins" Width="1.5" PointX="0.625" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HAMS_DB_AspNetModel.AspNetUsers" Width="1.5" PointX="3" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HAMS_DB_AspNetModel.Comment" Width="1.5" PointX="6.375" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HAMS_DB_AspNetModel.Group" Width="1.5" PointX="10.125" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="HAMS_DB_AspNetModel.StudentsGroup" Width="1.5" PointX="5.875" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HAMS_DB_AspNetModel.Subject" Width="1.5" PointX="3.25" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="HAMS_DB_AspNetModel.Task" Width="1.5" PointX="8.625" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HAMS_DB_AspNetModel.TaskDetail" Width="1.5" PointX="10.75" PointY="10.5" IsExpanded="true" />
+        <AssociationConnector Association="HAMS_DB_AspNetModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="HAMS_DB_AspNetModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="HAMS_DB_AspNetModel.FK_Comment_User_ID_AspNetUsers_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="HAMS_DB_AspNetModel.FK_StudentsGroup_Student_ID_AspNetUsers_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="HAMS_DB_AspNetModel.FK_Subject_Teacher_ID_User_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="HAMS_DB_AspNetModel.FK_Comment_Task_ID_Task_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="HAMS_DB_AspNetModel.FK_StudentsGroup_Group_ID_Group_ID" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="HAMS_DB_AspNetModel.FK_TaskDetail_Group_ID_Group_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="HAMS_DB_AspNetModel.FK_TaskDetail_Subject_ID_Subject_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="HAMS_DB_AspNetModel.FK_TaskDetail_Task_ID_Task_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="HAMS_DB_AspNetModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="HAMS_DB_AspNetModel.TeachersGroup" Width="1.5" PointX="5.875" PointY="5" />
+        <AssociationConnector Association="HAMS_DB_AspNetModel.FK_TeachersGroup_Teacher_ID_AspNetUsers_Id" />
+        <AssociationConnector Association="HAMS_DB_AspNetModel.FK_TeachersGroup_Group_ID_Group_ID" />
+        <EntityTypeShape EntityType="HAMS_DB_AspNetModel.StudentsTask" Width="1.5" PointX="8.25" PointY="8.125" />
+        <AssociationConnector Association="HAMS_DB_AspNetModel.FK_StudentsTask_Student_ID_AspNetUsers_Id" />
+        <AssociationConnector Association="HAMS_DB_AspNetModel.FK_StudentsTask_Task_ID_Task_ID" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

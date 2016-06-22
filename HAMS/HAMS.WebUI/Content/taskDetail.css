@@ -1,0 +1,93 @@
+.thumbnail {
+                padding:0px;
+            }
+            .panel {
+                position:relative;
+            }
+            .panel>.panel-heading:after,.panel>.panel-heading:before{
+                position:absolute;
+                top:11px;left:-16px;
+                right:100%;
+                width:0;
+                height:0;
+                display:block;
+                content:" ";
+                border-color:transparent;
+                border-style:solid solid outset;
+                pointer-events:none;
+            }
+            .panel>.panel-heading:after{
+                border-width:7px;
+                border-right-color:#f7f7f7;
+                margin-top:1px;
+                margin-left:2px;
+            }
+            .panel>.panel-heading:before{
+                border-right-color:#ddd;
+                border-width:8px;
+            }
+            textarea{
+                resize: none;
+            }
+
+        .break-word {
+            word-break: break-all;
+        }
+/*        hr{
+            border: none;
+            height: 1px;
+            background-color: #7e7e7e;
+        }*/
+        .task-detail-header{
+            font-family: "Helvetica Neue, Helvetica, Arial, sans-serif";
+            font-weight: 500;
+            font-size: 15px;
+    line-height: 1.1;
+        }
+        .comment-reply {
+    padding: 10px 0px 5px 15px;
+    font-size: 12px;
+    position: relative;
+    right: 3px;
+}
+.row .well {
+    padding-bottom: 0px;
+    background-color: #ffffff;
+    -webkit-box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.edit {
+        position: absolute;
+    right: 6px;
+    top: 44px;
+    font-size: 12px;
+}
+.for-group {
+    margin-top: 25px;
+    line-height: 2;
+}
+body {
+    background-color: #EEEEEE;
+}
+        .jumbotron .btn {
+                color: #009688;
+    font-size: 16px;
+    box-shadow: none;
+    border-radius: 2px;
+    padding: 8px 30px;
+    margin: 10px 1px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0;
+    will-change: box-shadow, transform;
+    transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: 0;
+    cursor: pointer;
+    text-decoration: none;
+    background: transparent;
+        }
+            .container .jumbotron {
+            padding: 20px;
+            background-color: #ffffff;
+            -webkit-box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            margin-bottom: 20px;
+        }
